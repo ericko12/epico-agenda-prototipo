@@ -120,7 +120,7 @@ function openRouteBuilder(){
   function paintClients(){
     let scope=$('#mRouteScope').value,q=$('#mRouteSearch').value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(),source=getMobileRouteSource(scope);
     $('#mCoverageInfo').innerHTML=scope==='team'?'<i>Clientes visibles por jerarquía. La cobertura extraordinaria la realiza el Gestor de equipo; no se habilita libremente de asesor a asesor.</i>':'';
-    let filtered=source.filter(c=>q.length>=3&&(mobileClientId(c)+' '+c[0]+' '+c[1]).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));
+    let filtered=source.filter(c=>(q.length===0||q.length>=3)&&(mobileClientId(c)+' '+c[0]+' '+c[1]).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(q));
     $('#mRouteClients').innerHTML=filtered.length?filtered.map(c=>'<label class="routepick"><input type="checkbox" class="mRoutePick" data-key="'+mobileClientKey(c)+'" '+(picked.has(mobileClientKey(c))?'checked':'')+'><span><b>'+c[0]+'</b><small>'+mobileClientId(c)+' · '+c[1]+(c[4]?' · Responsable original: '+c[4]:'')+'</small></span></label>').join(''):'<div class="empty" style="padding:18px 8px">Sin coincidencias.</div>';
     document.querySelectorAll('.mRoutePick').forEach(x=>x.onchange=()=>{if(x.checked)picked.add(x.dataset.key);else picked.delete(x.dataset.key);updateCount()});updateCount()
   }
